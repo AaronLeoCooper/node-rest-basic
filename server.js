@@ -14,11 +14,14 @@ app.get('/', function(req, res) {
 app.get('/users', function(req, res) {
   fs.readFile(__dirname + '/json/users.json', 'utf8', function(err, data) {
     console.log(data);
-    res.end(data);
+    res.json(data);
   });
 });
 
-if ( !heroku ) {
+if ( heroku ) {
+  app.listen(process.env.PORT || 80);
+}
+else {
   var server = app.listen(1111, function() {
     var host = server.address().address;
     var port = server.address().port;
