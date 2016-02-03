@@ -18,7 +18,7 @@ app.get('/users', function(req, res) {
   });
 });
 
-if ( heroku ) {
+if ( !heroku ) {
   var server = app.listen(1111, function() {
     var host = server.address().address;
     var port = server.address().port;
