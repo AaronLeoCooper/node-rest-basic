@@ -1,0 +1,22 @@
+{
+  "name": "node-rest",
+  "version": "1.0.0",
+  "description": "A very basic REST API built on Node and Express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AaronLeoCooper/node-rest-basic.git"
+  },
+  "author": "Aaron Leo Cooper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AaronLeoCooper/node-rest-basic/issues"
+  },
+  "homepage": "https://github.com/AaronLeoCooper/node-rest-basic#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
