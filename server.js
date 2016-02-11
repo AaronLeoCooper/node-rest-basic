@@ -26,6 +26,6 @@ else {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('Test app listening at http://%s:%s', host, port);
+    console.log('Test app listening at http://localhost:', port);
   });
 }
