@@ -1,31 +1,39 @@
-var express = require('express');
-var app = express();
-var fs = require('fs');
+var express = require('express'),
+    app = express(),
+    bodyParser = require("body-parser"),
+    fs = require('fs');
+
 // Heroku's config parameter HEROKU gets set when running on Heroku, otherwise assume locally running
-var heroku = process.env.HEROKU || false;
+GLOBAL.heroku = process.env.HEROKU || false;
 
-app.get('/', function(req, res) {
-  fs.readFile(__dirname + '/json/users.json', 'utf8', function(err, data) {
-    console.log(data);
-    res.end(data);
-  });
-});
+// General app configs
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({"extended" : false}));
 
-app.get('/users', function(req, res) {
-  fs.readFile(__dirname + '/json/users.json', 'utf8', function(err, data) {
-    console.log(data);
-    res.json(data);
-  });
-});
+// Import routes
+app.use( '/', require('./routes/api') );
 
+// Start the server!
 if ( heroku ) {
   app.listen(process.env.PORT || 80);
 }
 else {
-  var server = app.listen(1111, function() {
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log('Test app listening at http://localhost:', port);
+  app.listen(1111, function() {
+    console.log('Test app listening at http://localhost:1111');
   });
 }
+
+/*
+
+To start local MongoDB, run this in 1 terminal window:
+  mongod --dbpath ~/Personal/mongoData
+
+And this in another terminal window:
+  mongo
+    Then select the DB:
+      use text_blog_db
+
+And finally run in another terminal window:
+  nodemon
+
+*/
