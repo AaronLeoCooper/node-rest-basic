@@ -7,7 +7,10 @@ var postSchema = new mongoose.Schema({
   "intro": String,
   "content": String,
   "slug": String,
-  "dateUpdated": Date,
+  "dateUpdated": {
+    default: Date.now,
+    type: Date
+  },
   "topics": [String],
   "tags": [String],
   "comments": [String],

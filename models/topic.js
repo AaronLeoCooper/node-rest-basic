@@ -7,8 +7,14 @@ var topicSchema = new mongoose.Schema({
   "description": String,
   "colour": String,
   "bgColour": String,
-  "fontSize": String,
-  "shape": String,
+  "fontSize": {
+    default: "100%",
+    type: String
+  },
+  "shape": {
+    default: "circle",
+    type: String
+  },
 });
 
 // Create model if it doesn't already exist

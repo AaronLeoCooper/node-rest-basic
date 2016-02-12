@@ -8,7 +8,7 @@ router.route('/')
       if ( err ) {
         result = {
           error: true,
-          message: "Error fetching posts data"
+          message: "Error fetching topics data"
         };
       }
       else {
@@ -25,7 +25,7 @@ router.route('/')
     var result = {};
     db.name = req.body.name;
     db.description = req.body.description;
-    db.color = req.body.color;
+    db.colour = req.body.colour;
     db.bgColor = req.body.bgColor;
     db.fontSize = req.body.fontSize;
     db.shape = req.body.shape;
@@ -33,13 +33,13 @@ router.route('/')
       if ( err ) {
         result = {
           error: true,
-          message: "Error inserting new post"
+          message: "Error inserting new topic"
         };
       }
       else {
         result = {
           error: false,
-          message: "New post inserted!"
+          message: "New topic inserted!"
         };
       }
       res.json(result);
@@ -53,7 +53,7 @@ router.route('/:id')
       if ( err ) {
         result = {
           error: true,
-          message: "Error fetching post data"
+          message: "Error fetching topic data"
         };
       }
       else {
@@ -71,13 +71,13 @@ router.route('/:id')
       if ( err ) {
         result = {
           error: true,
-          message: "Error inserting new post"
+          message: "Error inserting new topic"
         };
       }
       else if ( !data ) {
         result = {
           error: false,
-          message: "Hmm.. Couldn't find that post"
+          message: "Hmm.. Couldn't find that topic"
         }
       }
       else {
@@ -85,7 +85,7 @@ router.route('/:id')
 
         if ( req.body.name ) data.name = req.body.name, wasChanged = true;
         if ( req.body.description ) data.description = req.body.description, wasChanged = true;
-        if ( req.body.color ) data.color = req.body.color, wasChanged = true;
+        if ( req.body.colour ) data.colour = req.body.colour, wasChanged = true;
         if ( req.body.bgColor ) data.bgColor = req.body.bgColor, wasChanged = true;
         if ( req.body.fontSize ) data.fontSize = req.body.fontSize, wasChanged = true;
         if ( req.body.shape ) data.shape = req.body.shape, wasChanged = true;
@@ -96,7 +96,7 @@ router.route('/:id')
             if ( err ) {
               result = {
                 error: true,
-                message: "Error inserting new post"
+                message: "Error inserting new topic"
               };
             }
             else {
@@ -128,7 +128,7 @@ router.route('/:id')
         };
       }
       else {
-        // No errors, delete the post
+        // No errors, delete the topic
         Topic.remove({_id : req.params.id}, function(err) {
           if ( err ) {
             result = {
