@@ -18,4 +18,4 @@ var topicSchema = new mongoose.Schema({
 });
 
 // Create model if it doesn't already exist
-module.exports = mongoose.model('topic', topicSchema);
+module.exports = mongoose.model('Topic', topicSchema);

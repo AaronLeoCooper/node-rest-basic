@@ -7,6 +7,7 @@ var postSchema = new mongoose.Schema({
   "intro": String,
   "content": String,
   "slug": String,
+  "imageHeader": String,
   "dateUpdated": {
     default: Date.now,
     type: Date
@@ -18,4 +19,4 @@ var postSchema = new mongoose.Schema({
 });
 
 // Create model if it doesn't already exist
-module.exports = mongoose.model('post', postSchema);
+module.exports = mongoose.model('Post', postSchema);
