@@ -21,29 +21,34 @@ router.route('/')
     });
   })
   .post(function(req, res) { // INSERT a Topic
-    var db = new Topic();
-    var result = {};
-    db.name = req.body.name;
-    db.description = req.body.description;
-    db.colour = req.body.colour;
-    db.bgColor = req.body.bgColor;
-    db.fontSize = req.body.fontSize;
-    db.shape = req.body.shape;
-    db.save(function(err) {
-      if ( err ) {
-        result = {
-          error: true,
-          message: "Error inserting new topic"
-        };
-      }
-      else {
-        result = {
-          error: false,
-          message: "New topic inserted!"
-        };
-      }
-      res.json(result);
-    });
+    if ( heroku ) {
+      res.end("Sorry, can't do that.");
+    }
+    else {
+      var db = new Topic();
+      var result = {};
+      db.name = req.body.name;
+      db.description = req.body.description;
+      db.colour = req.body.colour;
+      db.bgColor = req.body.bgColor;
+      db.fontSize = req.body.fontSize;
+      db.shape = req.body.shape;
+      db.save(function(err) {
+        if ( err ) {
+          result = {
+            error: true,
+            message: "Error inserting new topic"
+          };
+        }
+        else {
+          result = {
+            error: false,
+            message: "New topic inserted!"
+          };
+        }
+        res.json(result);
+      });
+    }
   });
 
 router.route('/:id')
@@ -66,87 +71,97 @@ router.route('/:id')
     });
   })
   .put(function(req, res) { // UPDATE a Topic
-    var result = {};
-    Topic.findById(req.params.id, function(err, data) {
-      if ( err ) {
-        result = {
-          error: true,
-          message: "Error inserting new topic"
-        };
-      }
-      else if ( !data ) {
-        result = {
-          error: false,
-          message: "Hmm.. Couldn't find that topic"
+    if ( heroku ) {
+      res.end("Sorry, can't do that.");
+    }
+    else {
+      var result = {};
+      Topic.findById(req.params.id, function(err, data) {
+        if ( err ) {
+          result = {
+            error: true,
+            message: "Error inserting new topic"
+          };
         }
-      }
-      else {
-        var wasChanged = false;
+        else if ( !data ) {
+          result = {
+            error: false,
+            message: "Hmm.. Couldn't find that topic"
+          }
+        }
+        else {
+          var wasChanged = false;
 
-        if ( req.body.name ) data.name = req.body.name, wasChanged = true;
-        if ( req.body.description ) data.description = req.body.description, wasChanged = true;
-        if ( req.body.colour ) data.colour = req.body.colour, wasChanged = true;
-        if ( req.body.bgColor ) data.bgColor = req.body.bgColor, wasChanged = true;
-        if ( req.body.fontSize ) data.fontSize = req.body.fontSize, wasChanged = true;
-        if ( req.body.shape ) data.shape = req.body.shape, wasChanged = true;
+          if ( req.body.name ) data.name = req.body.name, wasChanged = true;
+          if ( req.body.description ) data.description = req.body.description, wasChanged = true;
+          if ( req.body.colour ) data.colour = req.body.colour, wasChanged = true;
+          if ( req.body.bgColor ) data.bgColor = req.body.bgColor, wasChanged = true;
+          if ( req.body.fontSize ) data.fontSize = req.body.fontSize, wasChanged = true;
+          if ( req.body.shape ) data.shape = req.body.shape, wasChanged = true;
 
-        // Only attempt db.save() if something was changed about the Topic
-        if ( wasChanged ) {
-          data.save(function(err) {
+          // Only attempt db.save() if something was changed about the Topic
+          if ( wasChanged ) {
+            data.save(function(err) {
+              if ( err ) {
+                result = {
+                  error: true,
+                  message: "Error inserting new topic"
+                };
+              }
+              else {
+                result = {
+                  error: false,
+                  message: "Topic updated!"
+                };
+              }
+            });
+          }
+          else {
+            result = {
+              error: false,
+              message: "Topic not affected, nothing was changed"
+            }
+          }
+        }
+      }).then(function() {
+        res.json(result);
+      });
+    }
+  })
+  .delete(function(req, res) { // DELETE a Topic
+    if ( heroku ) {
+      res.end("Sorry, can't do that.");
+    }
+    else {
+      var result = {};
+      Topic.findById(req.params.id, function(err, data) {
+        if ( err ) {
+          result = {
+            error: true,
+            message: "Error fetching data"
+          };
+        }
+        else {
+          // No errors, delete the topic
+          Topic.remove({_id : req.params.id}, function(err) {
             if ( err ) {
               result = {
                 error: true,
-                message: "Error inserting new topic"
+                message: "Error deleting data"
               };
             }
             else {
               result = {
-                error: false,
-                message: "Topic updated!"
+                error : false,
+                message : "Topic "+req.params.id+" was deleted"
               };
             }
+          }).then(function() {
+            res.json(result);
           });
         }
-        else {
-          result = {
-            error: false,
-            message: "Topic not affected, nothing was changed"
-          }
-        }
-      }
-    }).then(function() {
-      res.json(result);
-    });
-  })
-  .delete(function(req, res) { // DELETE a Topic
-    var result = {};
-    Topic.findById(req.params.id, function(err, data) {
-      if ( err ) {
-        result = {
-          error: true,
-          message: "Error fetching data"
-        };
-      }
-      else {
-        // No errors, delete the topic
-        Topic.remove({_id : req.params.id}, function(err) {
-          if ( err ) {
-            result = {
-              error: true,
-              message: "Error deleting data"
-            };
-          }
-          else {
-            result = {
-              error : false,
-              message : "Topic "+req.params.id+" was deleted"
-            };
-          }
-        }).then(function() {
-          res.json(result);
-        });
-      }
-    });
+      });
+    }
   });
 
 
