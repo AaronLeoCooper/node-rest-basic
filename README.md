@@ -42,3 +42,21 @@ use test_blog_db
 ```
 nodemon
 ```
+
+<br />
+<br />
+
+### Oh, and sorry..
+
+<br />
+
+I'm not going to include my \_config.js file, and no, I have no plans to include it in the future either. If you're using this repo, then you'll need to create your own configuration and place it into /models. The config will look something like this dummy data, where you'll need to change the key of 'secretCode' to whatever you wish your app to use where the key is being referenced.
+
+<br />
+
+```
+module.exports = {
+  'secretCode': 'averysecretcode!',
+  'database': 'mongodb://localhost:27017/test_blog_db'
+};
+```

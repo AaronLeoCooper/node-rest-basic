@@ -1,17 +1,21 @@
+// Heroku's config parameter HEROKU gets set when running on Heroku, otherwise assume locally running
+GLOBAL.heroku = process.env.HEROKU || false;
+
 var express = require('express'),
     app = express(),
     bodyParser = require("body-parser"),
-    fs = require('fs');
-
-// Heroku's config parameter HEROKU gets set when running on Heroku, otherwise assume locally running
-GLOBAL.heroku = process.env.HEROKU || false;
+    fs = require('fs'),
+    morgan = require('morgan');
 
 // General app configs
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
 
+// Morgan for console logging requests
+app.use(morgan('dev'));
+
 // Import routes
-app.use( '/', require('./routes/api') );
+app.use( '/', require('./app/routes') );
 
 // Start the server!
 if ( heroku ) {
