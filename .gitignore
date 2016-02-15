@@ -33,4 +33,4 @@ node_modules
 .node_repl_history
 
 # Don't upload _config
-# _config.js
+_config.js
