@@ -33,10 +33,4 @@ node_modules
 .node_repl_history
 
 # Don't upload _config
-_config.js
-models/_config.js
-/models/_config.js
-routes/_config.js
-/routes/_config.js
-routes/api/_config.js
-/routes/api/_config.js
+# _config.js
