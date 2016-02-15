@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
 });
 
 // Custom routes
-router.use( '/posts', require('./post') );
-router.use( '/topics', require('./topic') );
+router.use( '/api/posts', require('./post') );
+router.use( '/api/topics', require('./topic') );
 
 module.exports = router;

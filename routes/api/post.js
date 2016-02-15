@@ -33,6 +33,10 @@ router.route('/')
       db.intro = req.body.intro;
       db.content = req.body.content;
       db.slug = req.body.slug || slug(req.body.title);
+      db.imageHeader = req.body.imageHeader;
+
+      db.topics = req.body.topics;
+      db.tags = req.body.tags;
 
       // Date.now is the default field value set in Schema
       // db.dateUpdated = new Date();
@@ -101,11 +105,15 @@ router.route('/:id')
           if ( req.body.content ) data.content = req.body.content, wasChanged = true;
           if ( req.body.slug ) data.slug = req.body.slug, wasChanged = true;
           if ( req.body.topics ) data.topics = req.body.topics, wasChanged = true;
+          if ( req.body.imageHeader ) data.imageHeader = req.body.imageHeader;
+
+          if ( req.body.topics ) data.topics = req.body.topics;
+          if ( req.body.tags ) data.tags = req.body.tags;
 
           // If adding a topic to the array individually (uniquely):
           //if ( req.body.topics ) data.topics.addToSet(req.body.topics), wasChanged = true;
 
-          // Only attempt db.save() if something was changed about the Post
+          // Only attempt data.save() if something was changed about the Post
           if ( wasChanged ) {
             data.dateUpdated = new Date();
 

@@ -22,18 +22,3 @@ else {
     console.log('Test app listening at http://localhost:1111');
   });
 }
-
-/*
-
-To start local MongoDB, run this in 1 terminal window:
-  mongod --dbpath ~/Personal/mongoData
-
-And this in another terminal window:
-  mongo
-    Then select the DB:
-      use text_blog_db
-
-And finally run in another terminal window:
-  nodemon
-
-*/

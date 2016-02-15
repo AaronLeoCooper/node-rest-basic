@@ -35,7 +35,7 @@ mongo
 ```
 ...and then in the same window once the connection is established to the MongoDB instance, run this to connect to the test database:
 ```
-use text_blog_db
+use test_blog_db
 ```
 
 3. And finally, to run the app locally use:

@@ -15,6 +15,8 @@ var topicSchema = new mongoose.Schema({
     default: "circle",
     type: String
   },
+}, {
+  collection: 'Topic',
 });
 
 // Create model if it doesn't already exist

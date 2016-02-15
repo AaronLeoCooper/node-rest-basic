@@ -16,6 +16,8 @@ var postSchema = new mongoose.Schema({
   "tags": [String],
   "comments": [String],
   "online": Boolean,
+}, {
+  collection: 'Post',
 });
 
 // Create model if it doesn't already exist
