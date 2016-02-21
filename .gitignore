@@ -32,5 +32,6 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-# Don't upload _config
+# Don't upload these
 _config.js
+app/routes/admin/create.js

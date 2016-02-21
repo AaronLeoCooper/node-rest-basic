@@ -1,15 +1,14 @@
 var router = require('express').Router(),
-    auth = require('./_auth').isAuthenticated,
-    Topic = require("../../models/topic");
+    User = require("../../models/user");
 
 router.route('/')
-  .get(auth, function(req, res) { // GET all Topics
+  .get(function(req, res) { // GET all Users
     var result = {};
-    Topic.find({}, function(err, data) {
+    User.find({}, function(err, data) {
       if ( err ) {
         result = {
           error: true,
-          message: "Error fetching topics data"
+          message: "Error fetching users data"
         };
       }
       else {
@@ -21,30 +20,28 @@ router.route('/')
       res.json(result);
     });
   })
-  .post(auth, function(req, res) { // INSERT a Topic
+  .post(function(req, res) { // INSERT a User
     if ( heroku ) {
       res.end("Sorry, can't do that.");
     }
     else {
-      var db = new Topic();
+      var db = new User();
       var result = {};
       db.name = req.body.name;
-      db.description = req.body.description;
-      db.colour = req.body.colour;
-      db.bgColor = req.body.bgColor;
-      db.fontSize = req.body.fontSize;
-      db.shape = req.body.shape;
+      db.username = req.body.username;
+      db.password = req.body.password;
+
       db.save(function(err) {
         if ( err ) {
           result = {
             error: true,
-            message: "Error inserting new topic"
+            message: "Error inserting new user"
           };
         }
         else {
           result = {
             error: false,
-            message: "New topic inserted!"
+            message: "New user inserted!"
           };
         }
         res.json(result);
@@ -53,13 +50,13 @@ router.route('/')
   });
 
 router.route('/:id')
-  .get(auth, function(req, res) { // GET a Topic
+  .get(function(req, res) { // GET a User
     var result = {};
-    Topic.findById(req.params.id, function(err, data) {
+    User.findById(req.params.id, function(err, data) {
       if ( err ) {
         result = {
           error: true,
-          message: "Error fetching topic data"
+          message: "Error fetching user data"
         };
       }
       else {
@@ -71,48 +68,45 @@ router.route('/:id')
       res.json(result);
     });
   })
-  .put(auth, function(req, res) { // UPDATE a Topic
+  .put(function(req, res) { // UPDATE a User
     if ( heroku ) {
       res.end("Sorry, can't do that.");
     }
     else {
       var result = {};
-      Topic.findById(req.params.id, function(err, data) {
+      User.findById(req.params.id, function(err, data) {
         if ( err ) {
           result = {
             error: true,
-            message: "Error inserting new topic"
+            message: "Error inserting new user"
           };
         }
         else if ( !data ) {
           result = {
             error: false,
-            message: "Hmm.. Couldn't find that topic"
+            message: "Hmm.. Couldn't find that user"
           }
         }
         else {
           var wasChanged = false;
 
           if ( req.body.name ) data.name = req.body.name, wasChanged = true;
-          if ( req.body.description ) data.description = req.body.description, wasChanged = true;
-          if ( req.body.colour ) data.colour = req.body.colour, wasChanged = true;
-          if ( req.body.bgColor ) data.bgColor = req.body.bgColor, wasChanged = true;
-          if ( req.body.fontSize ) data.fontSize = req.body.fontSize, wasChanged = true;
-          if ( req.body.shape ) data.shape = req.body.shape, wasChanged = true;
+          if ( req.body.username ) data.username = req.body.username, wasChanged = true;
+          if ( req.body.password ) data.password = req.body.password, wasChanged = true;
 
-          // Only attempt db.save() if something was changed about the Topic
+          // Only attempt db.save() if something was changed about the User
           if ( wasChanged ) {
             data.save(function(err) {
               if ( err ) {
                 result = {
                   error: true,
-                  message: "Error inserting new topic"
+                  message: "Error inserting new user"
                 };
               }
               else {
                 result = {
                   error: false,
-                  message: "Topic updated!"
+                  message: "User updated!"
                 };
               }
             });
@@ -120,7 +114,7 @@ router.route('/:id')
           else {
             result = {
               error: false,
-              message: "Topic not affected, nothing was changed"
+              message: "User not affected, nothing was changed"
             }
           }
         }
@@ -129,13 +123,13 @@ router.route('/:id')
       });
     }
   })
-  .delete(auth, function(req, res) { // DELETE a Topic
+  .delete(function(req, res) { // DELETE a User
     if ( heroku ) {
       res.end("Sorry, can't do that.");
     }
     else {
       var result = {};
-      Topic.findById(req.params.id, function(err, data) {
+      User.findById(req.params.id, function(err, data) {
         if ( err ) {
           result = {
             error: true,
@@ -143,8 +137,8 @@ router.route('/:id')
           };
         }
         else {
-          // No errors, delete the topic
-          Topic.remove({_id : req.params.id}, function(err) {
+          // No errors, delete the user
+          User.remove({_id : req.params.id}, function(err) {
             if ( err ) {
               result = {
                 error: true,
@@ -154,7 +148,7 @@ router.route('/:id')
             else {
               result = {
                 error : false,
-                message : "Topic "+req.params.id+" was deleted"
+                message : "User "+req.params.id+" was deleted"
               };
             }
           }).then(function() {

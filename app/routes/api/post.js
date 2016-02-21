@@ -1,10 +1,11 @@
 var router = require('express').Router(),
     slug = require('slug'),
+    auth = require('./_auth').isAuthenticated,
     Post = require("../../models/post"),
     Topic = require("../../models/topic");
 
 router.route('/')
-  .get(function(req, res) { // GET all Posts
+  .get(auth, function(req, res) { // GET all Posts
     var result = {};
     Post.find({}, function(err, data) {
       if ( err ) {
@@ -22,7 +23,7 @@ router.route('/')
       res.json(result);
     });
   })
-  .post(function(req, res) { // INSERT a Post
+  .post(auth, function(req, res) { // INSERT a Post
     if ( heroku ) {
       res.end("Sorry, can't do that.");
     }
@@ -60,7 +61,7 @@ router.route('/')
   });
 
 router.route('/:id')
-  .get(function(req, res) { // GET a Post
+  .get(auth, function(req, res) { // GET a Post
     var result = {};
     Post.findById(req.params.id, function(err, data) {
       if ( err ) {
@@ -78,7 +79,7 @@ router.route('/:id')
       res.json(result);
     });
   })
-  .put(function(req, res) { // UPDATE a Post
+  .put(auth, function(req, res) { // UPDATE a Post
     if ( heroku ) {
       res.end("Sorry, can't do that.");
     }
@@ -144,7 +145,7 @@ router.route('/:id')
       });
     }
   })
-  .delete(function(req, res) { // DELETE a Post
+  .delete(auth, function(req, res) { // DELETE a Post
     if ( heroku ) {
       res.end("Sorry, can't do that.");
     }

@@ -1,11 +1,12 @@
 var router = require('express').Router();
 
-// Default route
-router.get('/', function(req, res) {
-  res.end("Sorry nothing here right now!");
-});
-
 // Secure api routes
 router.use( '/api', require('./api') );
+
+// Admin routes
+router.use( '/admin', require('./admin') );
+
+// Default route to frontend app
+router.use( '/', require('./front') );
 
 module.exports = router;
